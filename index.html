@@ -2,239 +2,43 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Прыжки по платформам</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Arial', sans-serif;
-            overflow: hidden;
-            position: relative;
-            background: linear-gradient(180deg, #87ceeb 0%, #add8e6 100%);
-        }
-
-        #game {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-
-        #startBtn {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            padding: 20px 40px;
-            font-size: 24px;
-            background: #ff3366;
-            color: white;
-            border: none;
-            border-radius: 15px;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(255, 51, 102, 0.3);
-            transition: all 0.3s;
-            z-index: 1000;
-        }
-
-        #startBtn:hover {
-            transform: translate(-50%, -50%) scale(1.1);
-            box-shadow: 0 7px 20px rgba(255, 51, 102, 0.5);
-        }
-
-        #startBtn:active {
-            transform: translate(-50%, -50%) scale(0.95);
-        }
-
-        /* Счетчик очков */
-        #scoreContainer {
-            position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: none;
-            z-index: 100;
-            background: rgba(255, 255, 255, 0.9);
-            padding: 15px 30px;
-            border-radius: 25px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            font-size: 24px;
-            font-weight: bold;
-            color: #333;
-            min-width: 200px;
-            text-align: center;
-        }
-
-        #score {
-            color: #ff3366;
-            font-size: 32px;
-            margin-left: 10px;
-        }
-
-        #bestScore {
-            font-size: 14px;
-            color: #666;
-            margin-top: 5px;
-        }
-
-        /* Контейнер кнопок управления */
-        #controls {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: none;
-            gap: 20px;
-            z-index: 100;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            max-width: 500px;
-            padding: 0 20px;
-        }
-
-        .control-btn {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            border: none;
-            background: rgba(255, 255, 255, 0.9);
-            color: #333;
-            font-size: 24px;
-            font-weight: bold;
-            cursor: pointer;
-            touch-action: none;
-            user-select: none;
-            -webkit-user-select: none;
-            transition: all 0.2s;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .control-btn:active {
-            transform: scale(0.9);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-        }
-
-        #left, #right {
-            background: linear-gradient(145deg, #e8e8e8, #ffffff);
-        }
-
-        #jump {
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(145deg, #ff5580, #ff3366);
-            color: white;
-            font-size: 28px;
-        }
-
-        /* Анимация появления счета */
-        @keyframes scoreUp {
-            0% {
-                transform: translateX(-50%) scale(1);
-            }
-            50% {
-                transform: translateX(-50%) scale(1.2);
-            }
-            100% {
-                transform: translateX(-50%) scale(1);
-            }
-        }
-
-        .score-animation {
-            animation: scoreUp 0.3s ease-out;
-        }
-
-        /* Popup для нового рекорда */
-        .new-record {
-            position: absolute;
-            top: 100px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: gold;
-            color: #333;
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-weight: bold;
-            animation: newRecord 2s ease-out forwards;
-            z-index: 101;
-        }
-
-        @keyframes newRecord {
-            0% {
-                opacity: 0;
-                transform: translateX(-50%) translateY(-20px);
-            }
-            20% {
-                opacity: 1;
-                transform: translateX(-50%) translateY(0);
-            }
-            80% {
-                opacity: 1;
-                transform: translateX(-50%) translateY(0);
-            }
-            100% {
-                opacity: 0;
-                transform: translateX(-50%) translateY(-20px);
-            }
-        }
-
-        /* Мобильная адаптация */
-        @media (max-width: 600px) {
-            .control-btn {
-                width: 70px;
-                height: 70px;
-                font-size: 20px;
-            }
-            
-            #jump {
-                width: 85px;
-                height: 85px;
-                font-size: 24px;
-            }
-
-            #controls {
-                bottom: 20px;
-                gap: 15px;
-            }
-
-            #scoreContainer {
-                font-size: 20px;
-                padding: 12px 24px;
-            }
-
-            #score {
-                font-size: 28px;
-            }
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Платформер - Прыжки вверх</title>
+    <!-- Подключаем библиотеку Phaser -->
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
+    <!-- Подключаем наш файл со стилями -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div id="game"></div>
     
-    <button id="startBtn">ИГРАТЬ</button>
-    
-    <!-- Счетчик очков -->
+    <button id="startBtn">СТАРТ</button>
+    <button id="skinBtn">СКИН</button>
+
     <div id="scoreContainer">
         <div>Очки: <span id="score">0</span></div>
-        <div id="bestScore">Рекорд: <span id="bestScoreValue">0</span></div>
+        <div>Рекорд: <span id="bestScoreValue">0</span></div>
     </div>
     
-    <!-- Кнопки управления -->
     <div id="controls">
-        <button class="control-btn" id="left">←</button>
-        <button class="control-btn" id="jump">↑</button>
-        <button class="control-btn" id="right">→</button>
+        <button id="left">◄</button>
+        <button id="jump">▲</button>
+        <button id="right">►</button>
     </div>
-
-    <!-- Phaser.js -->
-    <script src="https://cdn.jsdelivr.net/npm/phaser@3.70.0/dist/phaser.min.js"></script>
-    <!-- Игровая логика -->
-    <script src="script.js"></script>
+<div id="skinInventory" class="hidden">
+    <div class="inventory-header">Выберите скин</div>
+    <div class="skin-options">
+        <!-- Кнопки выбора скина с цветом фона -->
+        <button class="skin-choice" data-color="0xff3366" style="background-color: #ff3366;"></button>
+        <button class="skin-choice" data-color="0x33ff66" style="background-color: #33ff66;"></button>
+        <button class="skin-choice" data-color="0x3366ff" style="background-color: #3366ff;"></button>
+        <button class="skin-choice" data-color="0xffff33" style="background-color: #ffff33;"></button>
+        <button class="skin-choice" data-color="0xffffff" style="background-color: #ffffff;"></button>
+    </div>
+    <button id="closeInventoryBtn">Закрыть</button>
+</div>
+ <!-- Подключаем наш файл со скриптом (ВАЖНО: в самом конце body ) -->
+ <script src="script.js"></script>
 </body>
 </html>
+
